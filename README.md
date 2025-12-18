@@ -45,4 +45,110 @@ Web application for teachers to view student test results and share reports via 
 - Can be printed or shared
 
 ## Code Obfuscation
-The JavaScript code is minified and obfuscated to prevent easy reverse-engineering.
+
+### Current State
+Both `app.js` and `report.js` are currently **manually obfuscated** using:
+- Shortened variable names (`_0x`, `_cfg`, `_db`, `_el`, `_x`, `_c`, etc.)
+- String array obfuscation for Firebase configuration
+- Minified single-line functions
+- Compact code structure
+
+### Development Workflow
+
+**Option 1: Maintain Separate Development Files (Recommended)**
+
+1. **Create unobfuscated versions**: Save readable code as:
+   - `app.dev.js` - Main dashboard application
+   - `report.dev.js` - Report page functionality
+   
+   Use descriptive names:
+   - `firebaseConfig` instead of `_cfg` or `_c`
+   - `database` instead of `_db`
+   - `elements` instead of `_el`
+   - `currentUser` instead of `_user`
+
+2. **During development**:
+   - Edit `app.dev.js` and `report.dev.js` with readable code
+   - Update HTML files temporarily:
+     ```html
+     <!-- In index.html -->
+     <script src="app.dev.js"></script>
+     
+     <!-- In report.html -->
+     <script src="report.dev.js"></script>
+     ```
+   - Test all functionality
+
+3. **Before deployment**:
+   - Obfuscate both files (see methods below)
+   - Restore HTML to use `app.js` and `report.js`
+   - Test obfuscated versions
+
+**Option 2: Use Git Branches**
+
+```bash
+# Development branch - readable code
+git checkout -b development
+# Keep app.js and report.js readable
+
+# Production branch - obfuscated code
+git checkout main
+# Contains obfuscated versions
+```
+
+### Obfuscation Methods
+
+**Manual Obfuscation (Current Method)**
+- Rename variables to short names (`_0x`, `_cfg`, `_db`, `_el`)
+- Split Firebase config into string arrays
+- Remove whitespace and comments
+- Combine statements on single lines
+
+**Automated Obfuscation Tools**
+
+1. **JavaScript Obfuscator (Online)**: https://obfuscator.io/
+   - Paste your readable code
+   - Settings: String Array Encoding, Control Flow Flattening
+   - Copy output to respective file
+
+2. **JavaScript Obfuscator (CLI)**:
+   ```bash
+   npm install -g javascript-obfuscator
+   
+   # Obfuscate main app
+   javascript-obfuscator app.dev.js --output app.js \
+     --compact true \
+     --control-flow-flattening true \
+     --string-array true
+   
+   # Obfuscate report page
+   javascript-obfuscator report.dev.js --output report.js \
+     --compact true \
+     --control-flow-flattening true \
+     --string-array true
+   ```
+
+3. **Terser (Minification)**:
+   ```bash
+   npm install -g terser
+   terser app.dev.js -o app.js --compress --mangle
+   terser report.dev.js -o report.js --compress --mangle
+   ```
+
+### Unobfuscating for Development
+
+**To work on existing obfuscated code:**
+
+1. **Restore from backup**: If you have `.dev.js` files, use those
+2. **Manual deobfuscation**: 
+   - Expand variable names to meaningful ones
+   - Add proper indentation and line breaks
+   - Add comments explaining logic
+   - Reconstruct Firebase config object
+3. **Use version control**: Check out development branch with readable code
+
+**Important**: Never edit `app.js` or `report.js` directly if they're obfuscated. Always maintain readable versions for development.
+
+### Files to Obfuscate
+- `app.js` - Main teacher dashboard (authentication, test loading, results display)
+- `report.js` - Student report page (detailed question-by-question results)
