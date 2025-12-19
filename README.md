@@ -53,32 +53,32 @@ Both `app.js` and `report.js` are currently **manually obfuscated** using:
 - Minified single-line functions
 - Compact code structure
 
-### Obfuscated Symbol Meanings (Development Reference)
+### Unobfuscated Symbol (Development Reference)
 
 **app.js symbols:**
-- `_0x` - String array containing Firebase config parts
-- `_cfg` - Firebase configuration object (assembled from `_0x`)
-- `_db` - Firestore database instance
-- `_auth` - Firebase authentication instance
-- `_user` - Current authenticated user object
-- `_secId` - Current teacher's assigned section ID
-- `_secName` - Current teacher's assigned section name
-- `_el` - DOM elements object (auth, main, signin, signout, email, secName, tests, refresh)
-- `_init()` - Initialize app (get section and load tests)
-- `_getSec()` - Get teacher's assigned section from Firestore
-- `_loadTests()` - Load all tests for the teacher's section
-- `_getRC(tid)` - Get result count for a test (tid = test ID)
-- `_viewRes(tid, tname)` - View student results modal (tid = test ID, tname = test name)
-- `_getStud()` - Get all students in the teacher's section
-- `_calcScore(r)` - Calculate percentage score from result object (r = result)
+- `_0x` → `firebaseConfigParts` - String array containing Firebase config parts
+- `_cfg` → `firebaseConfig` - Firebase configuration object
+- `_db` → `db` or `firestore` - Firestore database instance
+- `_auth` → `auth` - Firebase authentication instance
+- `_user` → `currentUser` - Current authenticated user object
+- `_secId` → `sectionId` - Current teacher's assigned section ID
+- `_secName` → `sectionName` - Current teacher's assigned section name
+- `_el` → `elements` - DOM elements object (auth, main, signin, signout, email, secName, tests, refresh)
+- `_init()` → `initializeApp()` - Initialize app (get section and load tests)
+- `_getSec()` → `getTeacherSection()` - Get teacher's assigned section from Firestore
+- `_loadTests()` → `loadTests()` - Load all tests for the teacher's section
+- `_getRC(tid)` → `getResultCount(testId)` - Get result count for a test
+- `_viewRes(tid, tname)` → `viewStudentResults(testId, testName)` - View student results modal
+- `_getStud()` → `getStudents()` - Get all students in the teacher's section
+- `_calcScore(r)` → `calculateScore(result)` - Calculate percentage score from result object
 
 **report.js symbols:**
-- `_0x` - String array containing Firebase config parts
-- `_c` - Firebase configuration object
-- `_d` - Firestore database instance
-- `_t` - Test ID from URL parameter
-- `_s` - Student ID from URL parameter
-- `_e` - DOM elements object
-- `_l()` - Load and display report data
-- `_g(c, f)` - Get document from collection (c = collection, f = field/ID)
+- `_0x` → `firebaseConfigParts` - String array containing Firebase config parts
+- `_c` → `firebaseConfig` - Firebase configuration object
+- `_d` → `db` or `firestore` - Firestore database instance
+- `_t` → `testId` - Test ID from URL parameter
+- `_s` → `studentId` - Student ID from URL parameter
+- `_e` → `elements` - DOM elements object
+- `_l()` → `loadReport()` - Load and display report data
+- `_g(c, f)` → `getDocument(collection, field)` - Get document from collection
 
